@@ -6,7 +6,11 @@
     "version": "1.0",
     "contact": {}
   },
-  "servers": [],
+  "servers": [
+    {
+      "url":"http://kong:8000/"
+    }
+  ],
   "tags": [
     {
       "name": "micro-products",
@@ -18,6 +22,10 @@
     },
     {
       "name": "micro-product-lists",
+      "description": ""
+    },
+    {
+      "name": "micro-users",
       "description": ""
     }
   ],
@@ -589,6 +597,589 @@
           "micro-product-lists"
         ]
       }
+    },
+    "/users": {
+      "post": {
+        "operationId": "UserController_create",
+        "summary": "Create users",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CreateUserDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The users are created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid schema supplied"
+          }
+        },
+        "tags": [
+          "micro-users"
+        ]
+      },
+      "get": {
+        "operationId": "UserController_findAll",
+        "summary": "Get all users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "micro-users"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "operationId": "UserController_findOne",
+        "summary": "Get user by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The id of the user you want to get",
+            "schema": {
+              "type": "string",
+              "format": "mongo-id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "tags": [
+          "micro-users"
+        ]
+      },
+      "put": {
+        "operationId": "UserController_update",
+        "summary": "Update one user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The id of the user you want to update",
+            "schema": {
+              "type": "string",
+              "format": "mongo-id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The user updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid schema supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "tags": [
+          "micro-users"
+        ]
+      },
+      "delete": {
+        "operationId": "UserController_remove",
+        "summary": "Delete one user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "The id of the user you want to delete",
+            "schema": {
+              "type": "string",
+              "format": "mongo-id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted"
+          },
+          "400": {
+            "description": "Invalid id supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "tags": [
+          "micro-users"
+        ]
+      }
+    },
+    "/ratings": {
+      "get": {
+        "tags": [
+          "micro-ratings"
+        ],
+        "summary": "Findallrating",
+        "operationId": "findAllRating_ratings_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Userid",
+              "type": "string"
+            },
+            "name": "userId",
+            "in": "query"
+          },
+          {
+            "required": false,
+            "schema": {
+              "title": "Productid",
+              "type": "string"
+            },
+            "name": "productId",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all rating data",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "micro-ratings"
+        ],
+        "summary": "Createrating",
+        "operationId": "createRating_ratings_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Rating",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RatingSchema"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rating data added into the database",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/{id}": {
+      "get": {
+        "tags": [
+          "micro-ratings"
+        ],
+        "summary": "Findonerating",
+        "operationId": "findOneRating_ratings__id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all rating data",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "micro-ratings"
+        ],
+        "summary": "Updateonerating",
+        "operationId": "updateOneRating_ratings__id__put",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRatingModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Update a rating",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "micro-ratings"
+        ],
+        "summary": "Deleteonerating",
+        "operationId": "deleteOneRating_ratings__id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            },
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Update a rating"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Root"
+        ],
+        "summary": "Read Root",
+        "operationId": "read_root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/docs-json": {
+      "get": {
+        "summary": "Getopenapi",
+        "operationId": "getOpenApi_docs_json_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "description": "Return all orders.",
+        "parameters": [
+          {
+            "description": "search by userid",
+            "in": "query",
+            "name": "user",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/model.Order"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "Get all orders.",
+        "tags": [
+          "micro-orders"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Create a new order with the input payload",
+        "parameters": [
+          {
+            "description": "Create order",
+            "in": "body",
+            "name": "Order",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/model.Order"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/model.Order"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "Create a new order",
+        "tags": [
+          "micro-orders"
+        ]
+      }
+    },
+    "/orders/{id}": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Delete order",
+        "parameters": [
+          {
+            "description": "Order ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Delete order",
+        "tags": [
+          "micro-orders"
+        ]
+      },
+      "get": {
+        "description": "Return one orders.",
+        "parameters": [
+          {
+            "description": "Order ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/model.Order"
+            }
+          }
+        },
+        "summary": "Get one orders.",
+        "tags": [
+          "micro-orders"
+        ]
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Update order with the input payload",
+        "parameters": [
+          {
+            "description": "Update order",
+            "in": "body",
+            "name": "Order",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/model.Order"
+            }
+          },
+          {
+            "description": "Order ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Update order",
+        "tags": [
+          "micro-orders"
+        ]
+      }
     }
   },
   "components": {
@@ -897,6 +1488,235 @@
               "type": "string",
               "format": "mongo-id"
             }
+          }
+        }
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+          },
+          "lastName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+          },
+          "birthDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "shoppingCart": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "birthDate",
+          "phoneNumber",
+          "mail",
+          "address",
+          "password",
+          "role"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "format": "mongo-id"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "birthDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "shoppingCart": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "birthDate",
+          "phoneNumber",
+          "mail",
+          "address",
+          "shoppingCart",
+          "password",
+          "role"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "birthDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "mail": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "shoppingCart": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "password": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "password",
+          "role"
+        ]
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "RatingSchema": {
+        "title": "RatingSchema",
+        "required": [
+          "product",
+          "user",
+          "score",
+          "date"
+        ],
+        "type": "object",
+        "properties": {
+          "product": {
+            "title": "Product",
+            "type": "string"
+          },
+          "user": {
+            "title": "User",
+            "type": "string"
+          },
+          "score": {
+            "title": "Score",
+            "type": "number"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "UpdateRatingModel": {
+        "title": "UpdateRatingModel",
+        "type": "object",
+        "properties": {
+          "product": {
+            "title": "Product",
+            "type": "string"
+          },
+          "user": {
+            "title": "User",
+            "type": "string"
+          },
+          "score": {
+            "title": "Score",
+            "type": "number"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
           }
         }
       }

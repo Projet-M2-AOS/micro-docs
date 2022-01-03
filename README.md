@@ -10,8 +10,16 @@
    "title": "AOS Project",
    "description": "AOS Project documentation"
  ```
-4. Copier le json
-5. Coller dans `index.html` ligne 42
-6. Mettre les fichier sur un serveur web type Nginx/Apache
+5. Si besoin modifier l'URL de base via l'attribut servers
+   ```json
+     "servers": [
+      {
+        "url":"http://kong:8000/"
+      }
+    ]
+   ```
+6. Copier le json
+7. Coller dans `index.html` ligne 42
+8. Mettre les fichiers sur un serveur web type Nginx/Apache
 
 
