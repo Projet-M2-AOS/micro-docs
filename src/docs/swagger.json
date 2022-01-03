@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Products",
-    "description": "The Products documentations",
+    "title": "AOS Shop",
+    "description": "The AOS Project documentations",
     "version": "1.0",
     "contact": {}
   },
